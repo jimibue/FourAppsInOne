@@ -14,7 +14,7 @@ function App() {
 
   const getThings = async () => {
     try {
-      let res = await axios.get("/api/things");
+      let res = await axios.get("http://localhost:3001/api/things");
       setThings(res.data);
       setLoading(false);
       setError(null);
@@ -35,9 +35,13 @@ function App() {
     });
   };
 
-  if (loading) return <p>loading</p>;
-  if (error) return <p>error occured</p>;
-  return <div className="App">{renderThings()}</div>;
+  const renderContent = () => {
+    if (loading) return <p>loading</p>;
+    if (error) return <p>error occured</p>;
+    return renderThings();
+  };
+
+  return <div className="App">{renderContent()}</div>;
 }
 
 export default App;
