@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
-
+import "./App.css";
+import { useState, useEffect } from "react";
+import axios from "axios";
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [things, setThings] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      getThings();
+    }, 2000);
+  }, []);
+
+  const getThings = async () => {
+    try {
+      let res = await axios.get("/api/things");
+      setThings(res.data);
+      setLoading(false);
+      setError(null);
+    } catch (err) {
+      setError("Error Occured");
+      setLoading(false);
+    }
+  };
+
+  const renderThings = () => {
+    return things.map((thing) => {
+      return (
+        <div>
+          <h3>{thing.name}</h3>
+          <p>likes: {thing.likes}</p>
+        </div>
+      );
+    });
+  };
+
+  if (loading) return <p>loading</p>;
+  if (error) return <p>error occured</p>;
+  return <div className="App">{renderThings()}</div>;
 }
 
 export default App;
