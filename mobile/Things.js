@@ -9,10 +9,11 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Pressable,
+  Button,
 } from 'react-native';
 import axios from 'axios';
 
-const Things = () => {
+const Things = ({navigation}) => {
   const [things, setThings] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -59,6 +60,18 @@ const Things = () => {
             style={styles.button}>
             <Text>Like</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Thing', {
+                id: thing.id,
+                name: thing.name,
+                likes: thing.likes,
+                anythingElse: 'yo',
+              })
+            }
+            style={styles.button}>
+            <Text>View</Text>
+          </TouchableOpacity>
         </View>
       );
     });
@@ -79,10 +92,7 @@ const Things = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <Text style={styles.header}>My APP</Text>
-        {renderContent()}
-      </SafeAreaView>
+      <SafeAreaView>{renderContent()}</SafeAreaView>
     </>
   );
 };
