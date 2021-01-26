@@ -6,4 +6,6 @@ Rails.application.routes.draw do
     put "like/:thing_id", to: "things#like"
     delete "things/:id", to: "things#destroy"
   end
+
+  get "*other", to: "static#index"
 end
