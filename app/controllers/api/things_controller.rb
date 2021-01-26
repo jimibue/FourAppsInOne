@@ -8,4 +8,14 @@ class Api::ThingsController < ApplicationController
     thing.update(likes: thing.likes + 1)
     render json: thing
   end
+
+  def create
+    puts params
+    thing = Thing.create(name: params[:name], likes: 0)
+    render json: thing
+  end
+
+  def destroy
+    render json: Thing.find(params[:id]).destroy
+  end
 end

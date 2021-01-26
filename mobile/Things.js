@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 
-const Things = ({navigation}) => {
+const Things = ({navigation, route}) => {
   const [things, setThings] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -55,29 +55,37 @@ const Things = ({navigation}) => {
             <Text style={styles.header}>{thing.name}</Text>
             <Text style={styles.paragraph}> {thing.likes}</Text>
           </View>
-          <TouchableOpacity
-            onPress={() => likeClicked(thing.id)}
-            style={styles.button}>
-            <Text>Like</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('Thing', {
-                id: thing.id,
-                name: thing.name,
-                likes: thing.likes,
-                anythingElse: 'yo',
-              })
-            }
-            style={styles.button}>
-            <Text>View</Text>
-          </TouchableOpacity>
+          <View style={styles.buttonGroup}>
+            <Button
+              title="like"
+              onPress={() => likeClicked(thing.id)}
+              style={styles.button}>
+              {/* <Text>Like</Text> */}
+            </Button>
+            <Button
+              title="view"
+              onPress={() =>
+                navigation.navigate('Thing', {
+                  id: thing.id,
+                  name: thing.name,
+                  likes: thing.likes,
+                  anythingElse: 'yo',
+                })
+              }
+              style={styles.button}>
+              {/* <Text>View</Text> */}
+            </Button>
+          </View>
         </View>
       );
     });
   };
 
   const renderContent = () => {
+    // if (route.params) {
+    //   setThings([...things, route.params.data]);
+    // }
+    // TODO SET UP CONTEXT OR REDUX TO HANDLE
     if (loading)
       return (
         <>
@@ -98,6 +106,17 @@ const Things = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  buttonGroup: {
+    borderWidth: 1,
+    borderColor: 'red',
+    display: 'flex',
+    // justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignContent: 'center',
+    alignItems: 'center',
+    borderColor: 'red',
+  },
   header: {
     fontSize: 34,
   },
@@ -127,6 +146,7 @@ const styles = StyleSheet.create({
     minHeight: 200,
   },
   button: {
+    width: '40%',
     borderWidth: 1,
     borderColor: '#ccc',
     alignItems: 'center',
